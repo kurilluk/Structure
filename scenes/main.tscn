@@ -1,3 +1,601 @@
-[gd_scene format=3 uid="uid://c5gbll72ahj5c"]
+[gd_scene load_steps=18 format=3 uid="uid://c5gbll72ahj5c"]
+
+[ext_resource type="Texture2D" uid="uid://cx6brmsdwcmxs" path="res://assets/textures/square_random/square_floor_diff_1k.png" id="1_7xfxo"]
+[ext_resource type="Texture2D" uid="uid://cign03da2c253" path="res://icon.svg" id="1_jtggv"]
+[ext_resource type="Script" path="res://scripts/Light.gd" id="1_pe2s7"]
+[ext_resource type="Texture2D" uid="uid://biaermq26oqok" path="res://assets/textures/lights/pixel_light.png" id="2_5d00q"]
+[ext_resource type="Texture2D" uid="uid://0h255mi53y54" path="res://assets/textures/square_random/square_floor_nor_dx_1k.png" id="2_282bt"]
+[ext_resource type="Texture2D" uid="uid://2fwdsix35ehb" path="res://assets/textures/lights/neutral_point_light.webp" id="2_g7s82"]
+[ext_resource type="Texture2D" uid="uid://boh1vlfrtj55s" path="res://assets/sprites/squere/player_clear.png" id="4_ot0vi"]
+[ext_resource type="Texture2D" uid="uid://c1hrm2t82nlwi" path="res://assets/textures/lights/glow_light.png" id="5_8ysc1"]
+[ext_resource type="FontFile" uid="uid://bqr8jy0q55i7b" path="res://fonts/kenney_mini_square.ttf" id="9_mea2b"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_vrb3i"]
+diffuse_texture = ExtResource("1_7xfxo")
+normal_texture = ExtResource("2_282bt")
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_gmoyk"]
+polygon = PackedVector2Array(-65, -55, -65, 55, -55, 65, 55, 65, 65, 55, 65, -55, 55, -65, -55, -65)
+
+[sub_resource type="Animation" id="Animation_fesbo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_f2ego"]
+resource_name = "ligh"
+length = 3.00001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_prixq"]
+_data = {
+"RESET": SubResource("Animation_fesbo"),
+"ligh": SubResource("Animation_f2ego")
+}
+
+[sub_resource type="Gradient" id="Gradient_m70q0"]
+interpolation_mode = 2
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ra8sh"]
+gradient = SubResource("Gradient_m70q0")
+use_hdr = true
+fill_from = Vector2(1, 0)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="Environment" id="Environment_71lnr"]
+background_mode = 3
+tonemap_mode = 3
+tonemap_exposure = 2.0
+adjustment_enabled = true
+adjustment_color_correction = SubResource("GradientTexture2D_ra8sh")
 
 [node name="Main" type="Node2D"]
+
+[node name="Background_texture2" type="Sprite2D" parent="."]
+visible = false
+texture = SubResource("CanvasTexture_vrb3i")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Maze" type="Node2D" parent="."]
+
+[node name="CanvasModulate2" type="CanvasModulate" parent="Maze"]
+visible = false
+color = Color(0, 0, 0, 1)
+
+[node name="Light2" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(286, 289)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light2"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light2/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light2"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light2"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light3" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(288, 357)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light3"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light3/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light3"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light3"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light4" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(288, 425)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light4"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light4/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light4"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light4"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light5" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(288, 156)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light5"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light5/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light5"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light5"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light6" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(288, 90)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light6"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light6/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light6"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light6"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light7" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(288, 24)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light7"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light7/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light7"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light7"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light8" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(288, -42)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light8"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light8/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light8"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light8"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light9" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(288, -107)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light9"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light9/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light9"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light9"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light10" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(355, 155)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light10"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light10/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light10"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light10"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light11" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(425, 155)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light11"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light11/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light11"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light11"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light12" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(493, 155)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light12"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light12/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light12"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light12"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light13" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(493, 86)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light13"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light13/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light13"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light13"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light14" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(489, 16)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light14"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light14/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light14"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light14"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light15" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(488, -51)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light15"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light15/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light15"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light15"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light16" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(420, -51)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light16"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light16/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light16"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light16"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light17" type="Marker2D" parent="Maze"]
+top_level = true
+z_index = 1
+position = Vector2(354, -47)
+
+[node name="Sprite2D" type="Sprite2D" parent="Maze/Light17"]
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_jtggv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Maze/Light17/Sprite2D"]
+occluder = SubResource("OccluderPolygon2D_gmoyk")
+
+[node name="PointLight2D" type="PointLight2D" parent="Maze/Light17"]
+visible = false
+energy = 5.0
+range_layer_min = -100
+texture = ExtResource("2_g7s82")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Maze/Light17"]
+visible = false
+energy = 3.0
+range_layer_min = -100
+texture = ExtResource("5_8ysc1")
+
+[node name="Light" type="Marker2D" parent="."]
+top_level = true
+z_index = 1
+script = ExtResource("1_pe2s7")
+
+[node name="Sprite2D" type="Sprite2D" parent="Light"]
+light_mask = 0
+texture = ExtResource("4_ot0vi")
+
+[node name="PointLight2D" type="PointLight2D" parent="Light"]
+visible = false
+color = Color(0.694118, 0.694118, 0.694118, 1)
+energy = 10.0
+range_layer_min = -100
+shadow_enabled = true
+shadow_color = Color(1, 1, 1, 0)
+texture = ExtResource("2_5d00q")
+
+[node name="PointLight2D3" type="PointLight2D" parent="Light"]
+color = Color(0, 0, 0, 1)
+blend_mode = 1
+range_layer_min = -100
+shadow_enabled = true
+shadow_color = Color(1, 1, 1, 1)
+texture = ExtResource("2_g7s82")
+texture_scale = 10.0
+
+[node name="PointLight2D2" type="PointLight2D" parent="Light"]
+visible = false
+rotation = 6.28319
+energy = 10.0
+range_layer_min = -100
+shadow_enabled = true
+shadow_color = Color(0.266667, 0.266667, 0.266667, 0.611765)
+texture = ExtResource("5_8ysc1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Light/PointLight2D2"]
+active = false
+libraries = {
+"": SubResource("AnimationLibrary_prixq")
+}
+autoplay = "ligh"
+
+[node name="Light2" type="Marker2D" parent="."]
+top_level = true
+z_index = 1
+position = Vector2(446, 431)
+
+[node name="Sprite2D" type="Sprite2D" parent="Light2"]
+light_mask = 0
+texture = ExtResource("4_ot0vi")
+
+[node name="PointLight2D" type="PointLight2D" parent="Light2"]
+visible = false
+energy = 10.0
+range_layer_min = -100
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+texture = ExtResource("2_5d00q")
+
+[node name="PointLight2D3" type="PointLight2D" parent="Light2"]
+color = Color(0, 0, 0, 1)
+range_layer_min = -100
+shadow_enabled = true
+shadow_color = Color(1, 1, 1, 1)
+texture = ExtResource("2_g7s82")
+texture_scale = 10.0
+
+[node name="PointLight2D2" type="PointLight2D" parent="Light2"]
+visible = false
+rotation = 6.28319
+energy = 10.0
+range_layer_min = -100
+shadow_enabled = true
+shadow_color = Color(0.266667, 0.266667, 0.266667, 0.611765)
+texture = ExtResource("5_8ysc1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Light2/PointLight2D2"]
+active = false
+libraries = {
+"": SubResource("AnimationLibrary_prixq")
+}
+autoplay = "ligh"
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(1024, 1024)
+
+[node name="Background_texture" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture = SubResource("CanvasTexture_vrb3i")
+centered = false
+
+[node name="CanvasModulate" type="CanvasModulate" parent="ParallaxBackground/ParallaxLayer"]
+visible = false
+color = Color(0.0823529, 0.0823529, 0.0823529, 1)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
+color = Color(0, 0, 0, 1)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_71lnr")
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 2
+offset_left = 101.0
+offset_top = 192.0
+offset_right = 237.0
+offset_bottom = 232.0
+theme_override_fonts/font = ExtResource("9_mea2b")
+theme_override_font_sizes/font_size = 32
+text = "GO GO GO"

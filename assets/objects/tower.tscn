@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://n6g3la0jhiyf"]
+
+[ext_resource type="Script" path="res://scripts/tower.gd" id="1_184qp"]
+[ext_resource type="Texture2D" uid="uid://buittse0lr8ja" path="res://assets/sprites/squere/player_2k.png" id="1_rc2pa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fovcn"]
+size = Vector2(90, 90)
+
+[node name="Tower" type="StaticBody2D" groups=["Allies"]]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_184qp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_fovcn")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_rc2pa")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+offset_left = -50.0
+offset_top = 53.0
+offset_right = 50.0
+offset_bottom = 80.0
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5

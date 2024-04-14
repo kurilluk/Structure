@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnbcmeqtb1san"]
+
+[ext_resource type="Texture2D" uid="uid://4x44cp1ab4pt" path="res://assets/sprites/squere/helper.png" id="1_1bc1p"]
+[ext_resource type="Script" path="res://scripts/monster.gd" id="1_fvqad"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n47yd"]
+radius = 24.0
+
+[node name="Monster" type="CharacterBody2D" groups=["Enemy"]]
+collision_mask = 2
+script = ExtResource("1_fvqad")
+speed = 200.0
+health = 100.0
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_1bc1p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_n47yd")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+offset_left = -31.0
+offset_top = 28.0
+offset_right = 29.0
+offset_bottom = 55.0
